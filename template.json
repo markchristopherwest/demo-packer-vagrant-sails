@@ -1,0 +1,49 @@
+{
+    "variables": {
+        "gurl": "https://github.com/balderdashy/sails-examples.git",
+        "place": "/tmp",
+        "box": "bionic64",
+        "repo": "ubuntu",
+        "version": "20190530.0.0"
+    },
+    "builders": [
+        {
+            "communicator": "ssh",
+            "source_path": "{{user `repo`}}/{{user `box`}}",
+            "provider": "virtualbox",
+            "skip_add": true,
+            "type": "vagrant"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "echo 'Keep Calm & Carry On...'",
+                "sleep 30"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "{{template_dir}}/bootstrap.sh",
+            "destination": "{{user `place`}}/bootstrap.sh"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "echo 'Kiss My Boots....'",
+                "{{user `place`}}/bootstrap.sh {{user `gurl`}}"
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "manifest",
+            "output": "manifest.json",
+            "strip_path": true,
+            "custom_data": {
+                "my_custom_data": "example"
+            }
+        }
+    ]
+}
