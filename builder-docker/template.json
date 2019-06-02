@@ -3,9 +3,7 @@
         "gurl": "https://github.com/balderdashy/sails-examples.git",
         "base": "ubuntu",
         "kind": "docker",
-        "date": "{{isotime ""2006-01-02""}}",
-        "time": "{{isotime ""02-Jan-06 03\_04\_05""}}",
-        "meta": "{{ (isotime | (user `magic_reference_date`)) | clean_ami_name }}"
+        "meta": "latest"
     },
     "builders": [
         {
@@ -14,8 +12,8 @@
             "commit": true,
             "changes": [
                 "LABEL version=1.0"
-              ]
-          }
+            ]
+        }
     ],
     "provisioners": [
         {
@@ -42,7 +40,8 @@
         },
         {
             "type": "docker-tag",
-            "tag": "{{user `version`}}"
-          }
+            "repository": "{{user `base`}}/{{user `kind`}}",
+            "tag": "{{user `meta`}}"
+        }
     ]
 }
