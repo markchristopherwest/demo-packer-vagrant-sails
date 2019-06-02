@@ -12,7 +12,8 @@ brew install vagrant
 ### Installing
 
 git clone <this-repo-name>
-cd <this-repo-name>
+cd <this-repo-name>/builder-
+cd <this-repo-name>/builder-vagrant
 packer build template.json
 
 ## Removing the Service

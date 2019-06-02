@@ -1,0 +1,48 @@
+{
+    "variables": {
+        "gurl": "https://github.com/balderdashy/sails-examples.git",
+        "base": "ubuntu",
+        "kind": "docker",
+        "date": "{{isotime ""2006-01-02""}}",
+        "time": "{{isotime ""02-Jan-06 03\_04\_05""}}",
+        "meta": "{{ (isotime | (user `magic_reference_date`)) | clean_ami_name }}"
+    },
+    "builders": [
+        {
+            "type": "docker",
+            "image": "{{user `base`}}",
+            "commit": true,
+            "changes": [
+                "LABEL version=1.0"
+              ]
+          }
+    ],
+    "provisioners": [
+        {
+            "type": "file",
+            "source": "{{template_dir}}/bootstrap.sh",
+            "destination": "/tmp/bootstrap.sh"
+        },
+        {
+            "type": "shell",
+            "inline": [
+                "echo 'Kiss My Boots....'",
+                "/tmp/bootstrap.sh {{user `gurl`}}"
+            ]
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "manifest",
+            "output": "manifest.json",
+            "strip_path": true,
+            "custom_data": {
+                "my_custom_data": "example"
+            }
+        },
+        {
+            "type": "docker-tag",
+            "tag": "{{user `version`}}"
+          }
+    ]
+}

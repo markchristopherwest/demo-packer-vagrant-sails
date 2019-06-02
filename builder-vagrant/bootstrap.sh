@@ -29,7 +29,7 @@ sudo npm install -g sails
 echo "Install ${repo} Source"
 sudo mkdir -p /var/www
 cd /tmp
-git clone "$href"
+git clone ${href}
 sudo rm -rf /tmp/${repo}/.git
 sudo mv /tmp/${repo} /var/www/${repo}
 cd /var/www/${repo}
